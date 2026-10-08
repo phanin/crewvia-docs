@@ -26,7 +26,7 @@ app/
   apps/
     core/            base models, permissions, navigation, dashboard
     companies/       Company (the tenant)
-    accounts/        custom User, login, logout, password reset
+    accounts/        custom User, login, logout, password reset, user management
     (customers, sales, jobs, billing are added in Milestone 2)
   templates/         base.html, dashboard.html, accounts/
   static/            Tailwind source and compiled CSS
@@ -45,6 +45,8 @@ infra/               Dockerfile and deployment files
 | Roles defined in code | `apps/core/permissions.py` is the single source of truth, applied with `seed_roles`. |
 | Server-rendered pages with HTMX | One codebase and language, no separate front-end build or API needed for the MVP. |
 | Tailwind standalone CLI | Styling without a Node toolchain. |
+| Users are deactivated, never deleted | History and audit fields keep pointing at a real person. |
+| One role per user, at least one active Admin | Keeps the permission picture simple and prevents lock-out. |
 
 ## Multi-tenancy
 

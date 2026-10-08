@@ -34,8 +34,8 @@ Everything in the stack is open source.
 | Tool | Purpose |
 |---|---|
 | `pytest`, `pytest-django` | Test runner |
-| `ruff` | Linting and formatting |
-| GitHub Actions | CI (planned) and documentation deploy |
+| `ruff` | Linting (rules `E4`, `E7`, `E9`, `F`; migrations excluded) |
+| GitHub Actions | CI on every pull request (ruff, Django checks, migration check, pytest with PostgreSQL 16) and documentation deploy |
 | MkDocs + Material | This documentation site |
 
 ## Project tooling

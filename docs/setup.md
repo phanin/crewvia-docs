@@ -47,6 +47,15 @@ docker compose down      # remove containers, keep the database
 docker compose down -v   # remove containers AND the database
 ```
 
+## Running the CI checks locally
+
+```bash
+docker compose exec web ruff check .
+docker compose exec web python manage.py check
+docker compose exec web python manage.py makemigrations --check --dry-run
+docker compose exec web pytest
+```
+
 ## Rebuilding the CSS
 
 After adding new Tailwind classes to templates:

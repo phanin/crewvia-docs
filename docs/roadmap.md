@@ -8,8 +8,9 @@
 - [x] Role groups and permission matrix
 - [x] Role-based navigation and dashboard shell
 - [x] Tailwind styling
-- [ ] User management screens
-- [ ] CI with ruff and pytest
+- [x] Public documentation site
+- [x] User management screens (code written Day 4; confirm after the first test run)
+- [x] CI with ruff and pytest (workflow written Day 4; confirm after the first green run)
 - [ ] Staging deployment with HTTPS and backups
 - [ ] Wireframes for Milestone 2 screens
 - [ ] Documentation set complete (architecture, ERD, permissions, setup)

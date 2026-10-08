@@ -18,6 +18,15 @@
   not scattered view code.
 - HTMX views render a full page normally and a partial when `request.htmx` is true.
 
+- When a view's model is `User`, set `context_object_name` to something other than `user`.
+  Otherwise the page header shows the edited person instead of the signed-in user.
+- Changing data that affects access (roles, active flag) is a POST, never a GET.
+
+## Continuous integration
+
+Every pull request runs `ruff check`, `manage.py check`, `makemigrations --check`
+and `pytest` against PostgreSQL 16. A pull request is merged only when it is green.
+
 ## Tests
 
 - Tests live next to the app in `tests/`.

@@ -15,6 +15,11 @@ Problems met during the build, and their fixes.
 | Superuser sees every menu item | Superusers have all permissions | Sign in as a demo user to see role menus |
 | Custom user model change fails mid-project | `migrate` was run before enabling the custom User | `docker compose down -v` and migrate again (development only) |
 | `UserWarning: No directory at /app/staticfiles/` | `collectstatic` not run | Harmless in development |
+| Push rejected: `refusing to allow a Personal Access Token to create or update workflow` | Token lacks the `workflow` scope | Add `workflow` to the token, or add the workflow file in the GitHub web editor |
+| GitHub Pages is unavailable for the repository | Pages needs a public repo on the Free plan | Publish the docs from a separate public repository |
+| Lost the generated demo password | `seed_demo` prints it once | `python manage.py changepassword <user>` |
+| Edit-user page shows the wrong name in the header | A view context variable named `user` hid the signed-in user | Use `context_object_name = "target_user"` |
+| `makemigrations` warns `failed to resolve host 'db'` | The database container is not running | `docker compose up -d`, then retry |
 
 ## Habits that prevent most of these
 

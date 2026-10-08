@@ -1,14 +1,15 @@
 site_name: MonsterOS Documentation
 site_description: Architecture, technology and build log for the MonsterOS field service MVP
 # Set to your Pages URL once known, e.g. https://<user-or-org>.github.io/<repo>/
-site_url: ""
-repo_url: ""
+site_url: "https://phanin.github.io/monsteros-docs/"
+repo_url: "https://github.com/phanin/monsteros-docs"
 docs_dir: docs
 exclude_docs: |
   README.md
   REQUIREMENTS_CONFIRMATION.md
   DAY2_APPLY.md
   DAY3_NOTES.md
+  DAY4_NOTES.md
 
 theme:
   name: material
@@ -50,6 +51,7 @@ nav:
       - Technology and libraries: technology.md
       - Data model: data-model.md
       - Roles and permissions: permissions.md
+      - User management: user-management.md
   - Guides:
       - Local setup: setup.md
       - Conventions: conventions.md
@@ -59,4 +61,5 @@ nav:
       - Day 1 - Repo and Docker: daily/day-01.md
       - Day 2 - Company and User: daily/day-02.md
       - Day 3 - Auth and roles: daily/day-03.md
+      - Day 4 - User management and CI: daily/day-04.md
   - Roadmap: roadmap.md
