@@ -1,12 +1,16 @@
 # Data model
 
-Current state after Day 3. Milestone 2 adds the workflow tables.
+Current state after Day 6. The rest of the Milestone 2 workflow tables are added as they are built.
 
 ```mermaid
 erDiagram
     COMPANY ||--o{ USER : "has"
+    COMPANY ||--o{ CUSTOMER : "owns"
     USER }o--o{ GROUP : "role"
     GROUP }o--o{ PERMISSION : "grants"
+    CUSTOMER ||--o{ CONTACT : "has"
+    CUSTOMER ||--o{ SITE : "has"
+    CUSTOMER |o--o{ CUSTOMER : "parent company"
 
     COMPANY {
         int id
@@ -24,7 +28,39 @@ erDiagram
         string phone
         bool is_active
     }
+    CUSTOMER {
+        int id
+        int company_id
+        string name
+        string customer_type
+        int parent_id
+        string division
+        string lead_source
+        string external_id
+        bool is_active
+    }
+    CONTACT {
+        int id
+        int customer_id
+        string first_name
+        string last_name
+        bool is_primary
+        bool is_invoice_contact
+        bool is_active
+    }
+    SITE {
+        int id
+        int customer_id
+        string name
+        string address_line1
+        string city
+        decimal latitude
+        decimal longitude
+        bool is_active
+    }
 ```
+
+Every field is described on the [Data dictionary](data-dictionary.md).
 
 ## Base classes
 
@@ -34,9 +70,17 @@ erDiagram
 | `TenantModel` | Everything in `AuditModel`, plus a required `company` |
 | `Access` | A table-less model that holds the app permission codenames |
 
-## Planned for Milestone 2
+## Rules the data follows
 
-Customer, Contact, Site, Lead, Estimate and EstimateLine, WorkOrder, Visit,
-Invoice and Payment. Planned future-proofing fields: `division`, `lead_source`,
-site `latitude` and `longitude`, and nullable `external_id` fields for later
-accounting sync.
+- Every business row has a `company`, and a user only ever sees their own company's rows.
+- Contacts and sites copy their `company` from their customer, so they cannot drift apart.
+- Nothing is deleted. Customers, contacts and sites are deactivated, and the history tables keep every change.
+- A customer's parent company must be in the same company and can never create a loop.
+
+## Planned next
+
+Lead, Estimate and EstimateLine, WorkOrder, Visit, Invoice and Payment.
+Invoices and estimates will keep Bill To, Payer, Service Location and Invoice
+Contact as separate links, so a head office can pay for a branch's work. Already
+in place on the customer side: `parent`, `division`, `lead_source`, site
+`latitude` and `longitude`, and nullable `external_id`.

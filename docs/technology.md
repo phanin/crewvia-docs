@@ -11,10 +11,10 @@ Everything in the stack is open source.
 | Database | PostgreSQL | 16 | Primary data store |
 | Front end | Django templates + HTMX | - | Server-rendered pages with partial updates |
 | Styling | Tailwind CSS (standalone CLI) | 4.x | Utility CSS, compiled to `output.css` |
-| Containers | Docker Compose | v2 | Local app and database |
+| Containers | Docker Compose | v2 | Local development and the staging and production stacks |
 | Web server | Gunicorn | 22+ | Production WSGI server (staging and production) |
 | Static files | WhiteNoise | 6.7+ | Serves static files from the app |
-| HTTPS proxy | Caddy | planned | Automatic HTTPS on the VPS |
+| HTTPS proxy | Caddy | 2.x | Automatic HTTPS certificates on the server |
 
 ## Python libraries
 

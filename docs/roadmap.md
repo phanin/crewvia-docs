@@ -9,16 +9,17 @@
 - [x] Role-based navigation and dashboard shell
 - [x] Tailwind styling
 - [x] Public documentation site
-- [x] User management screens (code written Day 4; confirm after the first test run)
-- [x] CI with ruff and pytest (workflow written Day 4; confirm after the first green run)
-- [ ] Staging deployment with HTTPS and backups
-- [ ] Wireframes for Milestone 2 screens
-- [ ] Documentation set complete (architecture, ERD, permissions, setup)
-- [ ] Milestone 1 acceptance checklist and demo
+- [x] User management screens
+- [x] CI workflow with ruff, Django checks, migration check and pytest
+- [x] Production stack files (Docker, HTTPS proxy, backup and restore scripts)
+- [x] Documentation set (architecture, data model, data dictionary, permissions, security baseline, setup, deployment)
+- [x] Milestone 1 acceptance checklist drafted
+- [ ] Staging server live with HTTPS and a tested backup restore
+- [ ] Milestone 1 demo and acceptance
 
 ## Milestone 2 - Core workflow (target Nov 1)
 
-- [ ] Customers, contacts and sites
+- [x] Customers, contacts and sites
 - [ ] Leads and estimates (line items, status lifecycle)
 - [ ] Work orders (created from approved estimates)
 - [ ] Scheduling and dispatch (assign technician and time window)

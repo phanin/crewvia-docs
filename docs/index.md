@@ -34,6 +34,5 @@ flowchart LR
 - What is next: [Roadmap](roadmap.md).
 
 !!! note "Scope"
-    The client's concept screens (CRM pipeline, GPS dispatch map, account
-    dashboard) show long-term direction. They are visual reference and do not
-    expand the Milestone 1 and 2 scope. See the [Roadmap](roadmap.md).
+    Milestone 1 and 2 scope is defined by the project agreement. Longer-term
+    ideas are listed on the [Roadmap](roadmap.md) and do not expand that scope.

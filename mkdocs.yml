@@ -10,6 +10,8 @@ exclude_docs: |
   DAY2_APPLY.md
   DAY3_NOTES.md
   DAY4_NOTES.md
+  DAY5_NOTES.md
+  DAY6_NOTES.md
 
 theme:
   name: material
@@ -52,14 +54,21 @@ nav:
       - Data model: data-model.md
       - Roles and permissions: permissions.md
       - User management: user-management.md
+      - Data dictionary: data-dictionary.md
+      - Customers, contacts and sites: customers.md
+      - Security baseline: security-baseline.md
   - Guides:
       - Local setup: setup.md
       - Conventions: conventions.md
+      - Deployment: deployment.md
       - Troubleshooting: troubleshooting.md
+      - Milestone 1 acceptance: m1-acceptance.md
   - Build log:
       - Overview: daily/index.md
       - Day 1 - Repo and Docker: daily/day-01.md
       - Day 2 - Company and User: daily/day-02.md
       - Day 3 - Auth and roles: daily/day-03.md
       - Day 4 - User management and CI: daily/day-04.md
+      - Day 5 - Deployment and docs: daily/day-05.md
+      - Day 6 - Customers, contacts, sites: daily/day-06.md
   - Roadmap: roadmap.md

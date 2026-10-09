@@ -20,7 +20,7 @@
 - **Stack:** Django, PostgreSQL, HTMX, Tailwind (all open source), chosen for one language and one deployable app.
 - **Project name:** MonsterOS, the client's name for the product.
 - **Repository ownership:** held by the developers until the agreement's payment terms are met, then transferred.
-- **Concept screens:** treated as long-term direction, not scope.
+- **Longer-term ideas:** treated as direction, not scope.
 
 ## Problems and fixes
 
