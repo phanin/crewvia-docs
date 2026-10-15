@@ -163,11 +163,43 @@ One priced line on an estimate.
 | `unit_price` | decimal (10,2) | Zero or more | No |
 | audit fields | | As above | No |
 
+## `workorders_workorder`
+
+The job to be done. Created from an approved estimate. Inherits `SequencedModel`.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Always copied from the customer | No |
+| `seq` | integer | Per company; shown as `WO-0001`. Unique with `company_id` | No |
+| `estimate_id` | one-to-one to estimate | One work order per estimate. `PROTECT` | No |
+| `customer_id`, `site_id` | FK | Copied from the estimate. `PROTECT` | No |
+| `title` | text (200) | Copied from the estimate, editable | No |
+| `description` | text | Copied from the estimate notes, editable | Possible |
+| `instructions` | text | Notes for the crew | Possible |
+| `priority` | text | `low`, `normal`, `high`, `urgent` | No |
+| `status` | text | `open`, `scheduled`, `in_progress`, `qa_review`, `completed`, `cancelled`. Only open and cancelled are used so far; the rest are set by scheduling and completion work | No |
+| audit fields | | As above | No |
+
+## `workorders_workorderitem`
+
+A task on the work order, copied from an estimate line. Prices are not copied.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `work_order_id` | FK to work order | `PROTECT` | No |
+| `company_id` | FK to company | Always copied from the work order | No |
+| `position` | integer | Same order as the estimate | No |
+| `description` | text (300) | | No |
+| `quantity` | decimal (8,2) | | No |
+| `is_done` | boolean | Used by the technician workflow later | No |
+| audit fields | | As above | No |
+
 ## Change history tables
 
 `customers_historicalcustomer`, `customers_historicalcontact`,
 `customers_historicalsite`, `sales_historicallead`, `sales_historicalestimate` and
-`sales_historicalestimateline` (from `django-simple-history`) keep one row for every
+`sales_historicalestimateline` and `workorders_historicalworkorder` (from `django-simple-history`) keep one row for every
 create, change and deactivation, with the user who did it and the time. They are
 read in the admin site under each record's History button.
 

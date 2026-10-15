@@ -2,7 +2,7 @@
 
 The sales side of Milestone 2. A lead is an enquiry. An estimate is the priced
 proposal that follows it. Work orders are created from approved estimates (see
-the build log).
+[Work orders](workorders.md)).
 
 ## Who can do what
 
@@ -40,7 +40,7 @@ stateDiagram-v2
 ```
 
 - Only a **draft** can be edited. Once sent, the lines and prices are locked so the customer's copy never changes quietly. Reopen it to change it.
-- **Approved is final.** It is the trigger for a work order.
+- **Approved is final.** It is the trigger for a [work order](workorders.md): an approved estimate shows a Create work order button, once.
 - Every change records who did it and when, plus the sent and decided dates.
 
 ## How it behaves

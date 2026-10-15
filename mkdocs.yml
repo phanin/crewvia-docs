@@ -59,6 +59,7 @@ nav:
       - Data dictionary: data-dictionary.md
       - Customers, contacts and sites: customers.md
       - Leads and estimates: sales.md
+      - Work orders: workorders.md
       - Security baseline: security-baseline.md
   - Guides:
       - Local setup: setup.md
@@ -75,4 +76,5 @@ nav:
       - Day 5 - Deployment and docs: daily/day-05.md
       - Day 6 - Customers, contacts, sites: daily/day-06.md
       - Day 7 - Leads and estimates: daily/day-07.md
+      - Day 8 - Work orders: daily/day-08.md
   - Roadmap: roadmap.md

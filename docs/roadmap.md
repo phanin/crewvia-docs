@@ -21,7 +21,7 @@
 
 - [x] Customers, contacts and sites
 - [x] Leads and estimates (line items, status lifecycle)
-- [ ] Work orders (created from approved estimates)
+- [x] Work orders (created from approved estimates)
 - [ ] Scheduling and dispatch (assign technician and time window)
 - [ ] Technician workflow (mobile-first)
 - [ ] Completion QA (pass or fail, reopen on failure)
