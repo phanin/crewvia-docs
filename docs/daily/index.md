@@ -10,6 +10,7 @@ A short record of what was done each day, what was decided, and what went wrong.
 | [Day 4](day-04.md) | Wed Oct 7 | User management, CI, docs update | Admin-only user screens, CI workflow |
 | [Day 5](day-05.md) | Fri Oct 9 | Staging deployment files, docs set | Production stack, backups, data dictionary, security baseline |
 | [Day 6](day-06.md) | Fri Oct 9 | Customers, contacts, sites | First Milestone 2 screens, change history, demo data |
+| [Day 7](day-07.md) | Wed Oct 14 | Leads and estimates | Lead list, estimates with lines, status lifecycle |
 
 Each entry follows the same shape: goals, what was built, decisions, problems
 and fixes, and what is next.

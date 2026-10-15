@@ -111,10 +111,63 @@ A place where work is done. A customer can have many sites.
 | `is_active` | boolean | | No |
 | audit fields | | As above | No |
 
+## `sales_lead`
+
+An enquiry that may turn into an estimate.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Set by the app | No |
+| `name` | text (200) | Who is asking, or what the enquiry is called | Yes |
+| `customer_id` | FK to customer, nullable | Needed before an estimate can be created. `PROTECT` | No |
+| `email`, `phone` | text | Optional | Yes |
+| `source` | text (80) | How they found the company | No |
+| `description` | text | What they need | Possible |
+| `status` | text | `new`, `contacted`, `quoted`, `won`, `lost` | No |
+| audit fields | | As above | No |
+
+## `sales_estimate`
+
+A priced proposal for a customer's site. Inherits `SequencedModel`.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Always copied from the customer | No |
+| `seq` | integer | Counts up per company; shown as `EST-0001`. Unique with `company_id` | No |
+| `customer_id` | FK to customer | `PROTECT` | No |
+| `site_id` | FK to site | Must belong to the same customer. `PROTECT` | No |
+| `lead_id` | FK to lead, nullable | The enquiry it came from | No |
+| `title` | text (200) | | No |
+| `status` | text | `draft`, `sent`, `approved`, `rejected` | No |
+| `tax_rate` | decimal (5,2) | Percent, 0 to 100 | No |
+| `valid_until` | date, nullable | | No |
+| `notes` | text | Shown to the customer | Possible |
+| `sent_at`, `decided_at` | datetime, nullable | Set by status changes, not editable | No |
+| audit fields | | As above | No |
+
+Subtotal, tax and total are calculated from the lines each time. They are not stored.
+
+## `sales_estimateline`
+
+One priced line on an estimate.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `estimate_id` | FK to estimate | `PROTECT` | No |
+| `company_id` | FK to company | Always copied from the estimate | No |
+| `position` | integer | Display order, set automatically | No |
+| `description` | text (300) | | No |
+| `quantity` | decimal (8,2) | At least 0.01 | No |
+| `unit_price` | decimal (10,2) | Zero or more | No |
+| audit fields | | As above | No |
+
 ## Change history tables
 
-`customers_historicalcustomer`, `customers_historicalcontact` and
-`customers_historicalsite` (from `django-simple-history`) keep one row for every
+`customers_historicalcustomer`, `customers_historicalcontact`,
+`customers_historicalsite`, `sales_historicallead`, `sales_historicalestimate` and
+`sales_historicalestimateline` (from `django-simple-history`) keep one row for every
 create, change and deactivation, with the user who did it and the time. They are
 read in the admin site under each record's History button.
 
@@ -137,6 +190,7 @@ read in the admin site under each record's History button.
 |---|---|---|---|
 | Name, email, phone, username | `accounts_user` | Sign-in, contact | Admins of the same company |
 | Customer and contact names, emails, phones, addresses | `customers_*` | Doing the work and billing | Roles with customer or site access in the same company |
+| Lead names, emails, phones | `sales_lead` | Following up enquiries | Roles with lead access in the same company |
 | Password hash | `accounts_user` | Authentication | Nobody through the app |
 | Sign-in time | `accounts_user.last_login` | Security | Admins of the same company (admin site) |
 

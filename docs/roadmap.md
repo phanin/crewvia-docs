@@ -20,7 +20,7 @@
 ## Milestone 2 - Core workflow (target Nov 1)
 
 - [x] Customers, contacts and sites
-- [ ] Leads and estimates (line items, status lifecycle)
+- [x] Leads and estimates (line items, status lifecycle)
 - [ ] Work orders (created from approved estimates)
 - [ ] Scheduling and dispatch (assign technician and time window)
 - [ ] Technician workflow (mobile-first)

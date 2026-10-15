@@ -12,6 +12,8 @@ exclude_docs: |
   DAY4_NOTES.md
   DAY5_NOTES.md
   DAY6_NOTES.md
+  DAY7_NOTES.md
+  DAY8_NOTES.md
 
 theme:
   name: material
@@ -56,6 +58,7 @@ nav:
       - User management: user-management.md
       - Data dictionary: data-dictionary.md
       - Customers, contacts and sites: customers.md
+      - Leads and estimates: sales.md
       - Security baseline: security-baseline.md
   - Guides:
       - Local setup: setup.md
@@ -71,4 +74,5 @@ nav:
       - Day 4 - User management and CI: daily/day-04.md
       - Day 5 - Deployment and docs: daily/day-05.md
       - Day 6 - Customers, contacts, sites: daily/day-06.md
+      - Day 7 - Leads and estimates: daily/day-07.md
   - Roadmap: roadmap.md

@@ -32,7 +32,7 @@
 
 ## Result
 
-Fill in after running the checks.
+89 tests pass. Lint, Django checks and the migration check are clean. `seed_demo_customers` adds 6 demo customers.
 
 ## Next
 
