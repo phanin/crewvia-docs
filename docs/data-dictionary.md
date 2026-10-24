@@ -192,14 +192,50 @@ A task on the work order, copied from an estimate line. Prices are not copied.
 | `position` | integer | Same order as the estimate | No |
 | `description` | text (300) | | No |
 | `quantity` | decimal (8,2) | | No |
-| `is_done` | boolean | Used by the technician workflow later | No |
+| `is_done` | boolean | Ticked by the technician during a visit | No |
+| audit fields | | As above | No |
+
+## `workorders_visit`
+
+A booked time for one technician to work on a work order. One work order can have several visits.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Always copied from the work order | No |
+| `work_order_id` | FK to work order | `PROTECT` | No |
+| `technician_id` | FK to user | Must be in the same company. `PROTECT` | No |
+| `start`, `end` | datetime | `end` must be after `start`. Stored in UTC, shown in local time | No |
+| `status` | text | `scheduled`, `in_progress`, `completed`, `cancelled` | No |
+| `notes` | text | For the technician | Possible |
+| `started_at`, `completed_at` | datetime, nullable | Set when the technician starts and completes the visit. Not editable | No |
+| `work_notes` | text | What the technician says was done. Not editable in forms | Possible |
+| audit fields | | As above | No |
+
+Two active visits for the same technician cannot overlap. This is checked when the
+visit is saved. There is no database-level guard yet, so two dispatchers saving the
+same slot in the same instant could both succeed (see the build log).
+
+## `workorders_qareview`
+
+One decision on a finished job. A work order that is sent back and finished again gets a new row each time, so the rows form a log.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Always copied from the work order | No |
+| `work_order_id` | FK to work order | `PROTECT` | No |
+| `reviewer_id` | FK to user | Who made the decision. `PROTECT` | No |
+| `result` | text | `passed` or `failed` (shown as "Sent back") | No |
+| `notes` | text | Required when sending back | Possible |
+| `reviewed_at` | datetime | Set when saved. Not editable | No |
 | audit fields | | As above | No |
 
 ## Change history tables
 
 `customers_historicalcustomer`, `customers_historicalcontact`,
 `customers_historicalsite`, `sales_historicallead`, `sales_historicalestimate` and
-`sales_historicalestimateline` and `workorders_historicalworkorder` (from `django-simple-history`) keep one row for every
+`sales_historicalestimateline` and `workorders_historicalworkorder` and `workorders_historicalvisit` (from `django-simple-history`) keep one row for every
 create, change and deactivation, with the user who did it and the time. They are
 read in the admin site under each record's History button.
 
@@ -223,6 +259,7 @@ read in the admin site under each record's History button.
 | Name, email, phone, username | `accounts_user` | Sign-in, contact | Admins of the same company |
 | Customer and contact names, emails, phones, addresses | `customers_*` | Doing the work and billing | Roles with customer or site access in the same company |
 | Lead names, emails, phones | `sales_lead` | Following up enquiries | Roles with lead access in the same company |
+| Technician schedule (who is where, when) | `workorders_visit` | Dispatch | Roles with schedule access in the same company; a technician sees only their own |
 | Password hash | `accounts_user` | Authentication | Nobody through the app |
 | Sign-in time | `accounts_user.last_login` | Security | Admins of the same company (admin site) |
 
@@ -233,3 +270,54 @@ Work orders, estimates and invoices arrive next and will be added here.
 `division`, `lead_source`, site `latitude` and `longitude`, nullable
 `external_id` for accounting sync, and separate Bill To, Payer, Service
 Location and Invoice Contact links on estimates and invoices.
+
+## `billing_invoice`
+
+One bill for a completed work order. Totals and payment status are worked out from the lines and payments, never stored.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Copied from the customer | No |
+| `seq` | integer | Per-company number, shown as `INV-0001` | No |
+| `work_order_id` | FK to work order | `PROTECT`. One live invoice per work order | No |
+| `customer_id`, `site_id` | FK | `PROTECT`. Copied from the work order | No |
+| `title` | text | Copied from the work order | No |
+| `status` | text | `draft`, `sent` or `void` | No |
+| `tax_rate` | decimal(5,2) | Percent, copied from the estimate | No |
+| `issue_date`, `due_date` | date | Empty until sent. Default today and 30 days later | No |
+| `notes` | text | Printed for the customer | Possible |
+| `sent_at`, `voided_at` | datetime | Set by the action. Not editable | No |
+| audit fields | | As above | No |
+
+Constraints: `(company, seq)` is unique. A work order can have only one invoice that is not void.
+
+## `billing_invoiceline`
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Copied from the invoice | No |
+| `invoice_id` | FK to invoice | `PROTECT` | No |
+| `position` | integer | Order on the page | No |
+| `description` | text | Copied from the estimate line | No |
+| `quantity` | decimal(10,2) | | No |
+| `unit_price` | decimal(10,2) | | No |
+| audit fields | | As above | No |
+
+## `billing_payment`
+
+Money received against a sent invoice. A mistaken payment is voided, never deleted.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Copied from the invoice | No |
+| `invoice_id` | FK to invoice | `PROTECT` | No |
+| `amount` | decimal(10,2) | More than zero, never above the balance | No |
+| `method` | text | `cash`, `check`, `card`, `bank_transfer` or `other` | No |
+| `paid_on` | date | | No |
+| `reference` | text | Check number or transaction id | No |
+| `notes` | text | | Possible |
+| `voided_at`, `void_reason` | datetime, text | Reason is required | No |
+| audit fields | | As above | No |

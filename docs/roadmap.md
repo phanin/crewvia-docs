@@ -22,10 +22,10 @@
 - [x] Customers, contacts and sites
 - [x] Leads and estimates (line items, status lifecycle)
 - [x] Work orders (created from approved estimates)
-- [ ] Scheduling and dispatch (assign technician and time window)
-- [ ] Technician workflow (mobile-first)
-- [ ] Completion QA (pass or fail, reopen on failure)
-- [ ] Invoice and payment status (Unpaid, Partial, Paid)
+- [x] Scheduling and dispatch (assign technician and time window)
+- [x] Technician workflow (mobile-first)
+- [x] Completion QA (pass or fail, reopen on failure)
+- [x] Invoice and payment status (Unpaid, Partial, Paid)
 - [ ] Production deployment and handover
 
 ## Later phases (not in current scope)

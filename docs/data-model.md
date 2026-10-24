@@ -1,6 +1,6 @@
 # Data model
 
-Current state after Day 8. The rest of the Milestone 2 workflow tables are added as they are built.
+Current state after Day 10. The rest of the Milestone 2 workflow tables are added as they are built.
 
 ```mermaid
 erDiagram
@@ -18,6 +18,8 @@ erDiagram
     ESTIMATE ||--o{ ESTIMATE_LINE : "has"
     ESTIMATE ||--o| WORK_ORDER : "becomes"
     WORK_ORDER ||--o{ WORK_ORDER_ITEM : "lists"
+    WORK_ORDER ||--o{ VISIT : "booked as"
+    USER ||--o{ VISIT : "technician"
     CUSTOMER ||--o{ WORK_ORDER : "for"
     SITE ||--o{ WORK_ORDER : "at"
 
@@ -59,6 +61,17 @@ erDiagram
         string title
         string priority
         string status
+    }
+    VISIT {
+        int id
+        int company_id
+        int work_order_id
+        int technician_id
+        datetime start
+        datetime end
+        string status
+        datetime started_at
+        datetime completed_at
     }
     WORK_ORDER_ITEM {
         int id
@@ -133,12 +146,21 @@ Every field is described on the [Data dictionary](data-dictionary.md).
 - Contacts and sites copy their `company` from their customer, so they cannot drift apart.
 - Nothing is deleted. Customers, contacts and sites are deactivated, and the history tables keep every change. The one exception is a line on a draft estimate, which can be removed; the history table still keeps it.
 - Estimate and work order numbers (EST-0001, WO-0001) count up separately for each company.
+- A technician cannot be booked for two overlapping visits. Cancelled visits free the slot.
 - A work order is made from one approved estimate and carries no prices, so the crew and dispatch never see them. Totals are worked out from the lines and never stored, so they cannot drift.
+- A finished job is completed only when a person with QA permission passes it. Each pass or send-back is kept as a review row with who and when.
 - A customer's parent company must be in the same company and can never create a loop.
+
+## Billing rules
+
+- An invoice is created only from a completed work order, with one live invoice per job. A void invoice can be replaced.
+- Lines are copied from the estimate, so later estimate edits never change a sent invoice.
+- Payment status (Unpaid, Partial, Paid) and overdue are calculated from live payments. Voided payments are kept but ignored.
+- The payment form refuses an amount above the balance, and the model checks again under a row lock.
 
 ## Planned next
 
-Visit (scheduling), Invoice and Payment.
+Invoice and Payment.
 Invoices and estimates will keep Bill To, Payer, Service Location and Invoice
 Contact as separate links, so a head office can pay for a branch's work. Already
 in place on the customer side: `parent`, `division`, `lead_source`, site
