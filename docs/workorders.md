@@ -11,7 +11,7 @@ A work order is the job itself. It is created from an approved
 | Office/Sales | View, create from an estimate |
 | Dispatcher | View, edit, cancel |
 | Finance | View |
-| Technician | No access yet (My Jobs arrives with the technician workflow) |
+| Technician | No access to this list. Uses [My Jobs](technician.md) instead |
 
 These follow the existing [permissions](permissions.md); no new permissions were added.
 
@@ -20,7 +20,7 @@ These follow the existing [permissions](permissions.md); no new permissions were
 | Screen | Address | What it does |
 |---|---|---|
 | Work order list | `/work-orders/` | Search by title, customer or site. Filter by status (Active by default) |
-| Work order detail | `/work-orders/<id>/` | Job details, site access notes, crew instructions, task list |
+| Work order detail | `/work-orders/<id>/` | Job details, site access notes, crew instructions, visits, task list |
 | Edit | `/work-orders/<id>/edit/` | Title, description, instructions, priority |
 | Create | button on an approved estimate | One click, one time |
 
@@ -38,11 +38,18 @@ These follow the existing [permissions](permissions.md); no new permissions were
 
 ## Status
 
-All six statuses exist from the start so later work needs no rebuild. For now a
-work order is Open or Cancelled. Scheduling sets Scheduled, the technician
-workflow sets In progress, and completion QA sets In QA review and Completed.
+All six statuses exist from the start so later work needs no rebuild.
+
+| Status | Set by |
+|---|---|
+| Open | Creating the work order, or cancelling its last booked visit |
+| Scheduled | Booking a visit ([Scheduling and dispatch](schedule.md)) |
+| In progress | The technician starting a visit ([Technician workflow](technician.md)) |
+| In QA review | The technician finishing the whole job |
+| Completed | Completion QA (later) |
+| Cancelled | A dispatcher or admin, while open or scheduled. Booked visits are cancelled with it |
 
 ## Not included yet
 
-Scheduling and dispatch, the technician view, ticking tasks off, completion QA,
+Completion QA,
 photos and signatures, and invoicing from a completed work order.
