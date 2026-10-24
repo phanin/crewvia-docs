@@ -31,7 +31,7 @@
 
 ## Result
 
-Fill in after running the checks.
+212 tests passing. Ruff and manage.py check clean.
 
 ## Next
 
