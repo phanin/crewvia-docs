@@ -12,6 +12,10 @@ A short record of what was done each day, what was decided, and what went wrong.
 | [Day 6](day-06.md) | Fri Oct 9 | Customers, contacts, sites | First Milestone 2 screens, change history, demo data |
 | [Day 7](day-07.md) | Wed Oct 14 | Leads and estimates | Lead list, estimates with lines, status lifecycle |
 | [Day 8](day-08.md) | Wed Oct 14 | Work orders | Created from approved estimates, copied task list, cancel and edit |
+| [Day 9](day-09.md) | Thu Oct 15 | Scheduling and dashboard | Visits, weekly schedule, double-booking check, real dashboard counts |
+| [Day 10](day-10.md) | Thu Oct 15 | Technician workflow | My Jobs, start and finish a visit, tick tasks, hand off to QA |
+| [Day 11](day-11.md) | Fri Oct 16 | Completion QA | Review queue, pass or send back with notes, QA history |
+| [Day 12](day-12.md) | Wed Oct 21 | Invoices and payment status | Invoice from a completed job, send, record payments, Unpaid / Partial / Paid |
 
 Each entry follows the same shape: goals, what was built, decisions, problems
 and fixes, and what is next.
