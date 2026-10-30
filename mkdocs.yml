@@ -69,8 +69,11 @@ nav:
       - Security baseline: security-baseline.md
   - Guides:
       - Local setup: setup.md
+      - Setup on Windows: windows.md
       - Conventions: conventions.md
       - Deployment: deployment.md
+      - Staging server: staging.md
+      - Email delivery: email.md
       - Troubleshooting: troubleshooting.md
       - Milestone 1 acceptance: m1-acceptance.md
   - Build log:
@@ -87,4 +90,8 @@ nav:
       - Day 10 - Technician workflow: daily/day-10.md
       - Day 11 - Completion QA: daily/day-11.md
       - Day 12 - Invoices and payments: daily/day-12.md
+      - Day 13 - Demo fixes and Windows: daily/day-13.md
+      - Day 14 - Staging on Oracle Cloud: daily/day-14.md
+      - Day 15 - Invoice PDF and email: daily/day-15.md
+      - Day 16 - Real email and invoice fixes: daily/day-16.md
   - Roadmap: roadmap.md

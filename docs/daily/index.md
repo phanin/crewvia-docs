@@ -16,6 +16,10 @@ A short record of what was done each day, what was decided, and what went wrong.
 | [Day 10](day-10.md) | Thu Oct 15 | Technician workflow | My Jobs, start and finish a visit, tick tasks, hand off to QA |
 | [Day 11](day-11.md) | Fri Oct 16 | Completion QA | Review queue, pass or send back with notes, QA history |
 | [Day 12](day-12.md) | Wed Oct 21 | Invoices and payment status | Invoice from a completed job, send, record payments, Unpaid / Partial / Paid |
+| [Day 13](day-13.md) | Tue Oct 27 | Demo fixes, Windows check | One estimate per lead, default tax rate, line-ending guard, setup tested on Windows |
+| [Day 14](day-14.md) | Tue Oct 27 | Staging on Oracle Cloud | `staging.crewvia.net` live with HTTPS, production stack, demo data |
+| [Day 15](day-15.md) | Wed Oct 28 | Invoice PDF and email | One-page PDF, email with attachment, email history, 290 tests |
+| [Day 16](day-16.md) | Thu Oct 29 | Real email and invoice fixes | Resend sending from `billing@mail.crewvia.net`, recipient fallback, list filter, 295 tests |
 
 Each entry follows the same shape: goals, what was built, decisions, problems
 and fixes, and what is next.

@@ -258,6 +258,7 @@ read in the admin site under each record's History button.
 |---|---|---|---|
 | Name, email, phone, username | `accounts_user` | Sign-in, contact | Admins of the same company |
 | Customer and contact names, emails, phones, addresses | `customers_*` | Doing the work and billing | Roles with customer or site access in the same company |
+| Recipient addresses of sent invoices | `billing_invoiceemail` | Record of what was sent to whom | Roles with invoice access in the same company |
 | Lead names, emails, phones | `sales_lead` | Following up enquiries | Roles with lead access in the same company |
 | Technician schedule (who is where, when) | `workorders_visit` | Dispatch | Roles with schedule access in the same company; a technician sees only their own |
 | Password hash | `accounts_user` | Authentication | Nobody through the app |
@@ -321,3 +322,20 @@ Money received against a sent invoice. A mistaken payment is voided, never delet
 | `notes` | text | | Possible |
 | `voided_at`, `void_reason` | datetime, text | Reason is required | No |
 | audit fields | | As above | No |
+
+## `billing_invoiceemail`
+
+A record of each attempt to email an invoice. Rows are never changed or deleted.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Copied from the invoice | No |
+| `invoice_id` | FK to invoice | `PROTECT` | No |
+| `to_email` | text | Address the invoice was sent to | Yes |
+| `subject` | text | For example `Invoice INV-0002 from Demo Security` | No |
+| `status` | text | `sent` or `failed` | No |
+| `error` | text | Provider error when failed | No |
+| audit fields | | As above | No |
+
+Shown newest first. Created by the invoice email action, whether or not the send worked.
