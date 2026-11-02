@@ -1,8 +1,7 @@
 # Data dictionary
 
-Every table and field in the database after Day 6, with what it holds and
-whether it contains personal data. Milestone 2 adds the workflow tables; they
-will be added here as they are built.
+Every table and field in the database, with what it holds and whether it
+contains personal data. The workflow tables from Milestone 2 are included.
 
 !!! note "Source of truth"
     The models in `app/apps/*/models.py` are the source of truth. If this page
@@ -10,8 +9,8 @@ will be added here as they are built.
 
 ## Conventions
 
-- Every business table (from Milestone 2) inherits `TenantModel`: a required `company` plus `AuditModel` fields. A company can never see another company's rows.
-- Money is stored as decimals, never floats (Milestone 2).
+- Every business table inherits `TenantModel`: a required `company` plus `AuditModel` fields. A company can never see another company's rows.
+- Money is stored as decimals, never floats.
 - Rows are deactivated, not deleted, so history stays intact.
 
 ## `companies_company`
@@ -264,13 +263,10 @@ read in the admin site under each record's History button.
 | Password hash | `accounts_user` | Authentication | Nobody through the app |
 | Sign-in time | `accounts_user.last_login` | Security | Admins of the same company (admin site) |
 
-Work orders, estimates and invoices arrive next and will be added here.
 
-## Planned fields for Milestone 2
+## Fields planned for later
 
-`division`, `lead_source`, site `latitude` and `longitude`, nullable
-`external_id` for accounting sync, and separate Bill To, Payer, Service
-Location and Invoice Contact links on estimates and invoices.
+Separate Bill To, Payer, Service Location and Invoice Contact links on estimates and invoices, a tax rate per company or site, and tables for a price list, equipment, service plans and agent suggestions. Customer-side fields `division`, `lead_source`, site `latitude` and `longitude`, and nullable `external_id` already exist.
 
 ## `billing_invoice`
 

@@ -22,6 +22,9 @@
   Otherwise the page header shows the edited person instead of the signed-in user.
 - Changing data that affects access (roles, active flag) is a POST, never a GET.
 
+- Anything that sends email goes through one service function that logs the attempt and rolls back the data change if sending fails.
+- A change set contains only the files that changed. Never copy a whole older tree over current files.
+
 ## Continuous integration
 
 Every pull request runs `ruff check`, `manage.py check`, `makemigrations --check`
@@ -36,4 +39,4 @@ and `pytest` against PostgreSQL 16. A pull request is merged only when it is gre
 ## Definition of done
 
 Works on staging, matches acceptance criteria, passes the role-based check,
-and docs are updated.
+the full test suite passes, and docs and the build log are updated.

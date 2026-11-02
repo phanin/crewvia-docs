@@ -33,4 +33,4 @@ Every decision is saved with who made it and when, and shown on the work order p
 - Another company's work order returns "not found".
 - Only the work order's own tasks can be re-opened.
 - A work order can be sent back and reviewed again as many times as needed.
-- Completed is final for now. Invoices are the next step.
+- Completed is final. A completed work order can be invoiced: see [Invoices and payments](billing.md).

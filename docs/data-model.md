@@ -1,6 +1,6 @@
 # Data model
 
-Current state after Day 10. The rest of the Milestone 2 workflow tables are added as they are built.
+Current state after Day 16. The whole Milestone 2 workflow is in place.
 
 ```mermaid
 erDiagram
@@ -22,6 +22,10 @@ erDiagram
     USER ||--o{ VISIT : "technician"
     CUSTOMER ||--o{ WORK_ORDER : "for"
     SITE ||--o{ WORK_ORDER : "at"
+    WORK_ORDER ||--o{ INVOICE : "billed as"
+    INVOICE ||--o{ INVOICE_LINE : "has"
+    INVOICE ||--o{ PAYMENT : "receives"
+    INVOICE ||--o{ INVOICE_EMAIL : "sent by"
 
     LEAD {
         int id
@@ -80,6 +84,40 @@ erDiagram
         string description
         decimal quantity
         bool is_done
+    }
+    INVOICE {
+        int id
+        int company_id
+        int seq
+        int work_order_id
+        int customer_id
+        string status
+        decimal tax_rate
+        date issue_date
+        date due_date
+    }
+    INVOICE_LINE {
+        int id
+        int invoice_id
+        int position
+        string description
+        decimal quantity
+        decimal unit_price
+    }
+    PAYMENT {
+        int id
+        int invoice_id
+        decimal amount
+        string method
+        date paid_on
+        datetime voided_at
+    }
+    INVOICE_EMAIL {
+        int id
+        int invoice_id
+        string to_email
+        string status
+        string error
     }
     COMPANY {
         int id
@@ -157,11 +195,17 @@ Every field is described on the [Data dictionary](data-dictionary.md).
 - Lines are copied from the estimate, so later estimate edits never change a sent invoice.
 - Payment status (Unpaid, Partial, Paid) and overdue are calculated from live payments. Voided payments are kept but ignored.
 - The payment form refuses an amount above the balance, and the model checks again under a row lock.
+- Every email attempt is kept (`billing_invoiceemail`), with who it went to and whether it worked. A failed send changes nothing else.
 
 ## Planned next
 
-Invoice and Payment.
-Invoices and estimates will keep Bill To, Payer, Service Location and Invoice
-Contact as separate links, so a head office can pay for a branch's work. Already
-in place on the customer side: `parent`, `division`, `lead_source`, site
+Already in place on the customer side: `parent`, `division`, `lead_source`, site
 `latitude` and `longitude`, and nullable `external_id`.
+
+Not yet built:
+
+- Bill To, Payer, Service Location and Invoice Contact as separate links on estimates and invoices, so a head office can pay for a branch's work.
+- A price list (`PriceItem`) that feeds estimate lines. The price is copied onto the line, so later changes never alter old estimates.
+- Equipment at a site and recurring service plans, needed for a second trade. See [Product direction](direction.md).
+- Agent tables for suggestions and settings. See [Agent layer](agents.md).
+- A tax rate on the company or site instead of one server setting.

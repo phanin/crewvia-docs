@@ -29,7 +29,7 @@
 
 ## Result
 
-_Fill in after the first test run: number of tests passing and whether CI is green._
+All 50 tests pass locally (20 from Days 1 to 3 and 30 new), `ruff check` is clean, and `makemigrations --check` reports no changes. The CI workflow runs the same checks on every pull request.
 
 ## Next
 

@@ -3,7 +3,7 @@
 Requires Docker Desktop (or Docker Engine with Compose v2) and git.
 
 ```bash
-git clone <repo-url> monsteros && cd monsteros
+git clone <repo-url> crewvia && cd crewvia
 cp .env.example .env
 ```
 
@@ -55,6 +55,17 @@ docker compose exec web python manage.py check
 docker compose exec web python manage.py makemigrations --check --dry-run
 docker compose exec web pytest
 ```
+
+## Email while developing
+
+Outgoing email prints to the console (`docker compose logs web`) instead of being sent,
+so you can click **Email to customer** safely. The PDF attachment appears as encoded text
+in that output. Tests use an in-memory mailbox.
+
+## Running tests
+
+Run the whole suite from the repository root: `docker compose exec web pytest -q`.
+Running one app's folder alone can miss the shared fixtures and show fixture errors.
 
 ## Rebuilding the CSS
 
