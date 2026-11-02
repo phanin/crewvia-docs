@@ -1,6 +1,6 @@
 # Architecture
 
-MonsterOS is a **modular monolith**: one Django project, one database, one
+Crewvia is a **modular monolith**: one Django project, one database, one
 deployable unit. This suits a small team and a short timeline, and it can be
 split later if it ever needs to be.
 
@@ -13,6 +13,7 @@ flowchart LR
     G --> T[Templates + HTMX partials]
     G --> DB[(PostgreSQL)]
     G --> WN[WhiteNoise static files]
+    G -->|SMTP, port 587| R[Resend email service]
 ```
 
 In local development the Django development server replaces Caddy and Gunicorn,
@@ -27,11 +28,14 @@ app/
     core/            base models, permissions, navigation, dashboard
     companies/       Company (the tenant)
     accounts/        custom User, login, logout, password reset, user management
-    (customers, sales, jobs, billing are added in Milestone 2)
-  templates/         base.html, dashboard.html, accounts/
+    customers/       customers, contacts, sites
+    sales/           leads, estimates and lines
+    workorders/      work orders, tasks, visits, scheduling, technician view, QA
+    billing/         invoices, lines, payments, PDF and email
+  templates/         base.html, dashboard.html, one folder per app
   static/            Tailwind source and compiled CSS
 docs/                this documentation
-infra/               Dockerfile and deployment files
+infra/               Dockerfile, entrypoint, Caddyfile, backup and restore scripts
 ```
 
 ## Key design decisions
@@ -57,8 +61,22 @@ infra/               Dockerfile and deployment files
   user's company and stamps audit fields on save.
 - A test proves that company A cannot see company B's data.
 
+## Outgoing email
+
+Email leaves through one place: Django's mail settings, set from environment
+variables. Locally it prints to the console; on staging it goes to Resend over SMTP.
+Code that sends mail records every attempt, so a failure is visible and the data
+changes made with it are rolled back. See [Email delivery](email.md).
+
+## Planned: agent layer
+
+A separate app, `agents`, will let software prepare work (a draft quote, a payment
+reminder) that a person approves. Agents use the same permissions and company
+isolation as people, and approving runs the normal model code, so history and
+rules still apply. See [Agent layer](agents.md).
+
 ## Out of scope for now
 
-Live GPS and routing, AI recommendations, accounting integration, customer
-portal, online payments, PDF invoices, email and SMS notifications, offline
-mode, photo and signature capture.
+Live GPS and routing, accounting integration, customer portal, online payments,
+SMS notifications, a background job queue, offline mode, photo and signature
+capture. AI features are planned as the agent layer above.

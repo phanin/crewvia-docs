@@ -67,6 +67,8 @@ nav:
       - Completion QA: qa.md
       - Invoices and payments: billing.md
       - Security baseline: security-baseline.md
+      - Product direction: direction.md
+      - Agent layer (design): agents.md
   - Guides:
       - Local setup: setup.md
       - Setup on Windows: windows.md
@@ -74,6 +76,7 @@ nav:
       - Deployment: deployment.md
       - Staging server: staging.md
       - Email delivery: email.md
+      - Production readiness: production-readiness.md
       - Troubleshooting: troubleshooting.md
       - Milestone 1 acceptance: m1-acceptance.md
   - Build log:
@@ -94,4 +97,5 @@ nav:
       - Day 14 - Staging on Oracle Cloud: daily/day-14.md
       - Day 15 - Invoice PDF and email: daily/day-15.md
       - Day 16 - Real email and invoice fixes: daily/day-16.md
+      - Day 17 - Documentation up to date: daily/day-17.md
   - Roadmap: roadmap.md

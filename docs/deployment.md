@@ -1,6 +1,6 @@
 # Deployment
 
-How to run MonsterOS on a server with HTTPS and backups. Used for staging first,
+How to run Crewvia on a server with HTTPS and backups. Used for staging first,
 and the same files are used for production.
 
 ## What you need
@@ -9,8 +9,11 @@ and the same files are used for production.
 - A domain or subdomain whose DNS A record points at the server's IP address. Caddy needs it to get the HTTPS certificate.
 - Access to the repository (a read-only deploy key or token).
 
-!!! note "Open decision"
-    Which provider hosts staging, and who pays for it, is still to be agreed.
+!!! info "Current staging"
+    Staging runs on Oracle Cloud (Always Free, ARM) at `staging.crewvia.net`. See
+    [Staging server](staging.md) for what runs there and the everyday commands, and
+    [Email delivery](email.md) for outgoing mail. This page is the general recipe
+    for any server.
 
 ## The stack
 
@@ -36,9 +39,9 @@ Files: `docker-compose.prod.yml`, `infra/Dockerfile` (target `prod`),
 2. **Get the code.**
 
     ```bash
-    sudo mkdir -p /opt/monsteros && sudo chown $USER /opt/monsteros
-    git clone git@github.com:phanin/monsteros.git /opt/monsteros
-    cd /opt/monsteros && git checkout develop
+    mkdir -p ~/crewvia
+    git clone git@github.com:phanin/crewvia.git ~/crewvia
+    cd ~/crewvia && git checkout develop
     ```
 
     The repository is private, so the server needs access: a read-only deploy key on the repository (Settings, Deploy keys), or clone over HTTPS with a fine-grained token that has read-only access to this repository.
@@ -53,7 +56,7 @@ Files: `docker-compose.prod.yml`, `infra/Dockerfile` (target `prod`),
     nano .env.production
     ```
 
-    Set `DOMAIN`, `DJANGO_ALLOWED_HOSTS` and `DJANGO_CSRF_TRUSTED_ORIGINS` (with `https://`) to your domain.
+    Set `DOMAIN`, `DJANGO_ALLOWED_HOSTS` and `DJANGO_CSRF_TRUSTED_ORIGINS` (with `https://`) to your domain. Set the email lines as described in [Email delivery](email.md), and `DEFAULT_TAX_RATE` to your tax percent. Write one value per name: if a name appears twice, the last line wins.
 
 4. **Start it.**
 
@@ -78,7 +81,7 @@ Files: `docker-compose.prod.yml`, `infra/Dockerfile` (target `prod`),
 6. **Check it.** Open `https://<your domain>/`, sign in, open Users. Open `http://<your domain>/` and confirm it redirects to HTTPS.
 
 !!! tip "Shorter commands"
-    Add `alias mos='docker compose --env-file .env.production -f docker-compose.prod.yml'` to your shell, then use `mos ps`, `mos logs -f web` and so on.
+    Add an alias for the long command to `~/.bashrc`, for example `alias dc='docker compose --env-file .env.production -f docker-compose.prod.yml'`, then use `dc ps`, `dc logs -f web` and so on. The examples below use the long form; staging uses `dc`.
 
 ## Backups
 
@@ -86,13 +89,13 @@ Files: `docker-compose.prod.yml`, `infra/Dockerfile` (target `prod`),
 bash infra/backup.sh
 ```
 
-Writes `backups/monsteros-<timestamp>.sql.gz` and removes files older than 14 days.
+Writes a timestamped `.sql.gz` file into `backups/` and removes files older than 14 days.
 Run it every night:
 
 ```bash
 crontab -e
 # 02:00 every day (server time)
-0 2 * * * cd /opt/monsteros && bash infra/backup.sh >> backups/backup.log 2>&1
+0 2 * * * cd ~/crewvia && bash infra/backup.sh >> backups/backup.log 2>&1
 ```
 
 Also copy the `backups/` folder off the server (another machine or object
@@ -102,7 +105,7 @@ disk as the database does not protect against losing the server.
 ### Restore
 
 ```bash
-bash infra/restore.sh backups/monsteros-<timestamp>.sql.gz
+bash infra/restore.sh backups/<file>.sql.gz
 ```
 
 It asks you to type `RESTORE`, stops the web container, replaces the data, and
@@ -111,13 +114,13 @@ restarts. **Test this once on staging before relying on it.**
 ## Updating
 
 ```bash
-cd /opt/monsteros
+cd ~/crewvia
 bash infra/backup.sh
 git pull
 docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
 ```
 
-Migrations run automatically when `web` starts. Tag each release
+Migrations run automatically when `web` starts. Leaving out `--build` keeps the old code running. A change to `.env.production` needs the container recreated (`up -d --force-recreate web`). Tag each release
 (`git tag m1-staging && git push --tags`) so you can return to it.
 
 ### Rolling back
@@ -138,4 +141,7 @@ If the newer version changed the database, restore the backup taken before the u
 | `403 CSRF verification failed` on sign-in | `DJANGO_CSRF_TRUSTED_ORIGINS` must include `https://<domain>` |
 | Pages unstyled or `Missing staticfiles manifest entry` | `collectstatic` did not run. Check `mos logs web` for the entrypoint output |
 | `web` keeps restarting | Read `mos logs web`. Usually a blank value in `.env.production` or a bad `POSTGRES_PASSWORD` |
-| Password reset email not arriving | Email goes to the logs until SMTP settings are added |
+| Email not arriving | Check `DJANGO_EMAIL_BACKEND` and the `EMAIL_*` lines, then the Resend dashboard logs. See [Email delivery](email.md) |
+| Changed `.env.production` but nothing changed | The container was not recreated. Run `up -d --force-recreate web` |
+| Old code after a deploy | `--build` was left out of `up -d --build` |
+| Site unreachable from outside on Oracle Cloud | The cloud network rules (security list) must also allow ports 80 and 443, besides the server firewall |

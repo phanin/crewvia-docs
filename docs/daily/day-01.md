@@ -18,7 +18,7 @@
 ## Decisions
 
 - **Stack:** Django, PostgreSQL, HTMX, Tailwind (all open source), chosen for one language and one deployable app.
-- **Project name:** MonsterOS, the client's name for the product.
+- **Project name:** MonsterOS, the working name then. The product was later renamed Crewvia.
 - **Repository ownership:** held by the developers until the agreement's payment terms are met, then transferred.
 - **Longer-term ideas:** treated as direction, not scope.
 

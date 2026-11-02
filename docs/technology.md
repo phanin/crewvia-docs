@@ -15,6 +15,9 @@ Everything in the stack is open source.
 | Web server | Gunicorn | 22+ | Production WSGI server (staging and production) |
 | Static files | WhiteNoise | 6.7+ | Serves static files from the app |
 | HTTPS proxy | Caddy | 2.x | Automatic HTTPS certificates on the server |
+| Hosting (staging) | Oracle Cloud Always Free, ARM | - | The staging server. See [Staging server](staging.md) |
+| Email | Resend (SMTP) | - | Sends invoice email from `billing@mail.crewvia.net`. See [Email delivery](email.md) |
+| DNS | GoDaddy | - | Domain and email records |
 
 ## Python libraries
 
@@ -26,7 +29,8 @@ Everything in the stack is open source.
 | `whitenoise` | Static file serving |
 | `django-environ` | Reads configuration from environment variables |
 | `django-htmx` | Detects HTMX requests so views can return partials |
-| `django-simple-history` | Change history on key models (planned for Milestone 2 models) |
+| `django-simple-history` | Change history on the business models |
+| `reportlab` | Draws the invoice PDF |
 | `django-filter` | Filtering list pages |
 
 ## Development and quality tools
@@ -44,11 +48,15 @@ Everything in the stack is open source.
 |---|---|
 | GitHub | Source code, issues, project board, milestones |
 | Slack | Team chat and daily updates |
+| Resend dashboard | Delivery logs for outgoing email |
 | Google Meet | Calls |
 
 ## Notes
 
 - Licenses: the libraries above use permissive open-source licenses (BSD, MIT,
   Apache 2.0, PostgreSQL License). Confirm before any redistribution.
-- Deferred on purpose: Celery and Redis (notifications), WeasyPrint (PDF
-  invoices), Django REST Framework (mobile app).
+- Deferred on purpose: Celery and Redis (background jobs for notifications and
+  agents), Django REST Framework (mobile app), an AI provider library (agent layer,
+  chosen when the first agent needs it).
+- PDF invoices use `reportlab` rather than WeasyPrint. It needs no system libraries,
+  so the container stays small.
