@@ -64,6 +64,9 @@ nav:
       - Work orders: workorders.md
       - Scheduling and dispatch: schedule.md
       - Technician workflow: technician.md
+      - Time tracking: timetracking.md
+      - Pipeline: pipeline.md
+      - Sample data: sample-data.md
       - Completion QA: qa.md
       - Invoices and payments: billing.md
       - Security baseline: security-baseline.md
@@ -98,4 +101,5 @@ nav:
       - Day 15 - Invoice PDF and email: daily/day-15.md
       - Day 16 - Real email and invoice fixes: daily/day-16.md
       - Day 17 - Documentation up to date: daily/day-17.md
+      - Day 18 - Time tracking and Pipeline: daily/day-18.md
   - Roadmap: roadmap.md

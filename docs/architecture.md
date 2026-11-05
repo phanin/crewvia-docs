@@ -32,6 +32,7 @@ app/
     sales/           leads, estimates and lines
     workorders/      work orders, tasks, visits, scheduling, technician view, QA
     billing/         invoices, lines, payments, PDF and email
+    timetracking/    shifts, clock in and out, timesheets, CSV export
   templates/         base.html, dashboard.html, one folder per app
   static/            Tailwind source and compiled CSS
 docs/                this documentation
@@ -68,6 +69,12 @@ variables. Locally it prints to the console; on staging it goes to Resend over S
 Code that sends mail records every attempt, so a failure is visible and the data
 changes made with it are rolled back. See [Email delivery](email.md).
 
+## Installable app
+
+The site serves a web app manifest, icons and a small service worker, so phones can
+install it to the home screen. The worker is network-only and caches no data. Native
+apps are a later decision; background location needs one. See [Time tracking](timetracking.md).
+
 ## Planned: agent layer
 
 A separate app, `agents`, will let software prepare work (a draft quote, a payment
@@ -77,6 +84,6 @@ rules still apply. See [Agent layer](agents.md).
 
 ## Out of scope for now
 
-Live GPS and routing, accounting integration, customer portal, online payments,
+Live GPS tracking and routing, accounting integration, customer portal, online payments,
 SMS notifications, a background job queue, offline mode, photo and signature
 capture. AI features are planned as the agent layer above.

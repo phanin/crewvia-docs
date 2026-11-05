@@ -197,6 +197,13 @@ Every field is described on the [Data dictionary](data-dictionary.md).
 - The payment form refuses an amount above the balance, and the model checks again under a row lock.
 - Every email attempt is kept (`billing_invoiceemail`), with who it went to and whether it worked. A failed send changes nothing else.
 
+## Time rules
+
+- A technician can have only one open shift, enforced by the database.
+- Location is stored only at clock in and clock out, and may be empty.
+- Shifts are never deleted. Corrections need a reason and are kept in history.
+- Hours, overtime and weekly totals are worked out when viewed and never stored.
+
 ## Planned next
 
 Already in place on the customer side: `parent`, `division`, `lead_source`, site

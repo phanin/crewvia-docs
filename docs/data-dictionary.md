@@ -251,6 +251,27 @@ read in the admin site under each record's History button.
 | `TenantModel` | Everything in `AuditModel` plus a required `company` |
 | `Access` | A table-less model that carries the permission codenames |
 
+## `timetracking_shift`
+
+One work day for one technician: clock in, optional break, clock out.
+
+| Field | Type | Notes | Personal data |
+|---|---|---|---|
+| `id` | bigint | Primary key | No |
+| `company_id` | FK to company | Tenant | No |
+| `technician_id` | FK to user | `PROTECT` | No |
+| `clock_in`, `clock_out` | datetime | `clock_out` empty while the shift is open. Stored in UTC | No |
+| `in_latitude`, `in_longitude`, `in_accuracy_m` | decimal, decimal, integer, nullable | Location at clock in. Empty if the phone refused | **Yes** |
+| `out_latitude`, `out_longitude`, `out_accuracy_m` | as above | Location at clock out | **Yes** |
+| `break_started_at` | datetime, nullable | Set while a break is running | No |
+| `break_seconds` | integer | Total finished break time | No |
+| `miles` | decimal | Miles driven, entered at clock out | No |
+| `note` | text | Optional | Possible |
+| audit fields | | As above | No |
+
+A partial unique constraint (`tt_one_open_shift_per_tech`) allows only one open
+shift per technician. History keeps every correction with its reason.
+
 ## Personal data summary
 
 | Data | Where | Why | Who can see it |
@@ -260,6 +281,7 @@ read in the admin site under each record's History button.
 | Recipient addresses of sent invoices | `billing_invoiceemail` | Record of what was sent to whom | Roles with invoice access in the same company |
 | Lead names, emails, phones | `sales_lead` | Following up enquiries | Roles with lead access in the same company |
 | Technician schedule (who is where, when) | `workorders_visit` | Dispatch | Roles with schedule access in the same company; a technician sees only their own |
+| Clock in and out times and locations | `timetracking_shift` | Hours, mileage and proof of where work started and ended | Roles with `time_view_all` in the same company; a technician sees only their own |
 | Password hash | `accounts_user` | Authentication | Nobody through the app |
 | Sign-in time | `accounts_user.last_login` | Security | Admins of the same company (admin site) |
 
