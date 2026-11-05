@@ -36,6 +36,8 @@ Roles are Django Groups. Each role is a bundle of permissions defined in
 | `invoices_view` - view invoices | ✔ | ✔ |  |  | ✔ |
 | `invoices_edit` - create and edit invoices | ✔ |  |  |  | ✔ |
 | `payments_record` - record payments | ✔ |  |  |  | ✔ |
+| `time_record_own` - clock in and out, own hours | ✔ |  |  | ✔ |  |
+| `time_view_all` - view all timesheets and export | ✔ |  | ✔ |  | ✔ |
 
 ## Roles
 
@@ -43,6 +45,8 @@ Roles are Django Groups. Each role is a bundle of permissions defined in
 |---|---|
 | Admin | Company owner or manager. Everything, including user management. |
 | Office/Sales | Customers, sites, leads, estimates, creating work orders. |
-| Dispatcher | Scheduling and assigning technicians, QA review. |
-| Technician | Own assigned jobs only. No pricing or invoices. |
-| Finance | Invoices and payments, read access to customers and work orders. |
+| Dispatcher | Scheduling and assigning technicians, QA review, all timesheets, correcting shifts. |
+| Technician | Own assigned jobs and own hours only. No pricing or invoices. |
+| Finance | Invoices and payments, read access to customers and work orders, all timesheets. |
+
+Editing a shift uses `schedule_manage`. The Pipeline page needs both `leads_view` and `estimates_view`.
